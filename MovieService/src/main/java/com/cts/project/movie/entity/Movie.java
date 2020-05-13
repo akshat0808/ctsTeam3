@@ -33,6 +33,9 @@ public class Movie
 	@Column(name = "mname")
 	private String mName;
 	
+	public Movie(int i, String string) {
+		// TODO Auto-generated constructor stub
+	}
 	public int getId() {
 		return id;
 	}

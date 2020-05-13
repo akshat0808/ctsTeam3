@@ -6,4 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 @JsonSerialize
 public class EmptyJsonResponse extends Movie {
 
+	public EmptyJsonResponse(int i, String string) {
+		super(i, string);
+		// TODO Auto-generated constructor stub
+	}
+
 }

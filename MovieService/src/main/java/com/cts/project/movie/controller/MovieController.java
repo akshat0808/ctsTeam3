@@ -36,7 +36,7 @@ public class MovieController
 		 @RequestMapping(value = "/", method = RequestMethod.GET)
 		 public ResponseEntity<List<Movie>> listAllMovie() 
 		 {
-		        List<Movie> movie = movieRepository.findAll();
+			 List<Movie> movie = movieRepository.findAll();
 		        
 		        if (movie.isEmpty()) {
 		            return new ResponseEntity<List<Movie>>(HttpStatus.NO_CONTENT);

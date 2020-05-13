@@ -1,38 +1,70 @@
 package com.cts.project.movie.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.context.junit4.SpringRunner;
 
+import com.cts.project.movie.entity.Movie;
 import com.cts.project.movie.repository.MovieRepository;
 
-
-@WebMvcTest(MovieController.class)
-
+@SpringBootTest
+@Runwith(SpringRunner.class)
 class MovieControllerTest {
 	
 	@Autowired
-	private MockMvc mock;
-	
 	@MockBean
-	private MovieRepository mr;
+    private MovieRepository movieRepository;
 
 	@Test
-	void getMovieByIdTestApi() throws Exception {
+	public void testListAllMovie() {
 		
-		mock.perform(MockMvcRequestBuilders .get("/movie/{movieId}",6)
-				.accept(MediaType.APPLICATION_JSON))
-				.andDo(print())
-				.andExpect(status()
-				.isOk());
+		when(movieRepository.findAll())
+		.thenReturn(Stream.of(new Movie(111, "URI"),new Movie(222,"M M"))
+		.collect(Collectors.toList()));
+		assertEquals(2, movieRepository.findAll().size());
 		
 	}
+
+//	@Test
+//	public void testGetMovie() {
+//		int movieId= 6;
+//		when(movieRepository.findById(movieId))
+//		.thenReturn(Stream.of(new Movie(111, "URI"))
+//		.collect(Collectors.toList()));
+//		assertEquals(1,movieRepository.findById(movieId));
+//		}
+
+	@Test
+	public void testCreateMovie() {
+		Movie movie= new Movie(888, "LOC");
+		when(movieRepository.save(movie)).thenReturn(movie);
+		assertEquals(movie, movieRepository.save(movie));
+	}
+
+	@Test
+	public void testDeleteMovie() {
+		Movie movie= new Movie(888, "LOC");
+		movieRepository.delete(movie);
+		verify(movieRepository, times(1)).delete(movie);
+	}
+	
+//	@Test
+//	public void testGetMovie() {
+//		int movieId= 6;
+//		when(movieRepository.findById(movieId))
+//		.thenReturn(Stream.of(new Movie(111, "URI"))
+//		.collect(Collectors.toList()));
+//		assertEquals(1,movieRepository.findById(movieId));
+//		}
 
 }
